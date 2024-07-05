@@ -7,12 +7,9 @@ import com.example.navigation.NavRegisterer
 import com.example.navigation.Screens
 
 class HomeNavRegisterer : NavRegisterer {
-    override fun registerGraph(
-        navGraphBuilder: NavGraphBuilder,
-        navController: NavController
-    ) {
+    override fun registerGraph(navGraphBuilder: NavGraphBuilder, navController: NavController) {
         navGraphBuilder.composable(Screens.HomeScreen.route) {
-            HomeScreen(onNavigateHomeScreen = {navController.navigate(Screens.HomeScreen.route)})
+            HomeScreen(onNavigateDetailScreen = {navController.navigate(route = Screens.DetailScreen.route)})
         }
     }
 }
