@@ -9,7 +9,7 @@ import com.example.navigation.Screens
 class DetailNavRegisterer : NavRegisterer {
     override fun registerGraph(navGraphBuilder: NavGraphBuilder, navController: NavController) {
         navGraphBuilder.composable(route = Screens.DetailScreen.route) {
-            DetailScreen(onNavigateHomeScreen = {navController.navigate(Screens.HomeScreen.route)})
+            DetailScreen(onNavigateHomeScreen = {navController.navigate(Screens.DetailScreen.route)})
         }
     }
 }
