@@ -1,4 +1,4 @@
-package com.kursatkumsuz.home
+package com.kursatkumsuz.detail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,13 +11,13 @@ import androidx.compose.ui.Modifier
 
 
 @Composable
-fun HomeScreen(onNavigateHomeScreen: () -> Unit) {
+fun DetailScreen(onNavigateHomeScreen: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Home Screen")
-        Button(onClick = { onNavigateHomeScreen() }) { Text("Detail Screen") }
+        Text("Detail Screen")
+        Button(onClick = { onNavigateHomeScreen() }) { Text("Home Screen") }
     }
 }
