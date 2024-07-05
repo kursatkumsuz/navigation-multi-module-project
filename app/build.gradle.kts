@@ -76,6 +76,12 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.dagger.hilt.compiler)
+
+
+    implementation(project(":feature:home"))
+    implementation(project(":feature:detail"))
+    implementation(project(":navigation"))
+
 }
 
 kapt {
