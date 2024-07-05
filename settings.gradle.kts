@@ -23,3 +23,4 @@ rootProject.name = "navigation-multi-module-project"
 include(":app")
 include(":feature:home")
 include(":feature:detail")
+include(":navigation")
