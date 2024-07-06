@@ -2,8 +2,12 @@ package com.example.navigation
 
 import kotlinx.serialization.Serializable
 
-@Serializable
-object HomeScreen
 
 @Serializable
-data class DetailScreen(val message: String?)
+sealed class Screen {
+    @Serializable
+    data object HomeScreen : Screen()
+
+    @Serializable
+    data class DetailScreen(val message: String?) : Screen()
+}

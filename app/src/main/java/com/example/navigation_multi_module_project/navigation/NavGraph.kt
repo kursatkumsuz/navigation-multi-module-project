@@ -3,7 +3,7 @@ package com.example.navigation_multi_module_project.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.example.navigation.HomeScreen
+import com.example.navigation.Screen.HomeScreen
 import com.example.navigation.NavProvider
 
 @Composable
