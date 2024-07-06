@@ -11,13 +11,17 @@ import androidx.compose.ui.Modifier
 
 
 @Composable
-fun DetailScreen(onNavigateHomeScreen: () -> Unit) {
+fun DetailScreen(
+    message : String,
+    onNavigateHomeScreen: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Detail Screen")
-        Button(onClick = { onNavigateHomeScreen() }) { Text("Home Screen") }
+        Text(text = message)
+        Button(
+            onClick = { onNavigateHomeScreen() })
+        { Text("Home Screen") }
     }
 }

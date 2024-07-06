@@ -13,12 +13,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NavModule {
-
     @Provides
     @Singleton
     fun provideNavProvider() : NavProvider = NavProvider(
         homeScreen = HomeNavRegisterer(),
         detailScreen = DetailNavRegisterer()
     )
-
 }
