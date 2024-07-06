@@ -12,9 +12,11 @@ import com.example.navigation.navigateTo
 class DetailNavRegisterer : NavRegisterer {
     override fun registerGraph(navGraphBuilder: NavGraphBuilder, navController: NavController) {
         navGraphBuilder.composable<DetailScreen> {
-           val args = it.toRoute<DetailScreen>()
-            args.message?.let { msg -> DetailScreen(message = msg,onNavigateHomeScreen = {navController.navigateTo(HomeScreen)}) }
+            // toRoute() fonksiyonu sayesinde navigation ile gönderilen veriyi alınır
+            val args = it.toRoute<DetailScreen>()
+            DetailScreen(onNavigateHomeScreen = { navController.navigateTo(HomeScreen) })
         }
     }
+}
 }
 
