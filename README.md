@@ -1,11 +1,15 @@
 # Multi Module Projeler için Navigation Compose Kullanımı
 
 
-- Ekran route'larının tanımlı olduğu sealed class
+- Ekran route'larının tanımlı olduğu sealed class. Type-Safety özelliğinin kullanılabilmesi için ekran route'larını temsil eden `data object` ve `data class` yapılarına `@Serializable` anotasyonunun eklenmesi gerekmektedir. Böylelikle string route'lara ihtiyaç kalmadan ekran yönlendirmelerini yapmak mümkün hale gelecektir.
+  
 ```
-sealed class Screens(val route : String) {
-    data object HomeScreen : Screens("home_screen")
-    data object DetailScreen : Screens("detail_screen")
+sealed class Screen {
+    @Serializable
+    data object HomeScreen : Screen()
+
+    @Serializable
+    data class DetailScreen(val message: String?) : Screen()
 }
 ```
 - Navigation modülünde oluşturulan bu interface daha sonra her feature modülünde screen adıyla oluşturulacak olan NavRegisterer sınıfı tarafından extend edilecek.
@@ -24,19 +28,20 @@ data class NavProvider(
 )
 ```
 - Feature:Home modülünün içinde oluşturulan bu sınıf NavRegisterer Interface'ini extend ederek ekranımızın navigation tarafından oluşturulmasını sağlayacak.
+- Type-Safety navigation sayesinde spesifik route ve argument key'e ihtiyaç yoktur. Ekranlar string route'lar olmadan KClass şeklinde tanımlanabilir. Veri gönderilmek istendiğinde ise spesifik bir argument key'e ihtiyaç duyulmadan Data Class şeklinde tanımlanan ekranın ilgili parametresi gönderilmek istenen veri verilir.
 
 ```
 
 class HomeNavRegisterer : NavRegisterer {
     override fun registerGraph(navGraphBuilder: NavGraphBuilder, navController: NavController) {
-        navGraphBuilder.composable(Screens.HomeScreen.route) {
-            HomeScreen(onNavigateDetailScreen = {navController.navigate(route = Screens.DetailScreen.route)})
+        navGraphBuilder.composable<HomeScreen> {
+            HomeScreen(onNavigateDetailScreen = {navController.navigateTo(screen = DetailScreen(message = "Detail Screen Message"))})
         }
     }
 }
+
 ```
-Oluşturulan bu Hilt modülünün içinde Navigation modülünün içinde oluşturulmuş olan NavProvider tanımlanacak. Böylelikle NavProvider içinde tanımlı tüm ekranlar NavHost tarafından
-erişilebilir hale gelecek.
+- Oluşturulan bu Hilt modülünün içinde Navigation modülünün içinde oluşturulmuş olan NavProvider tanımlanacak. Böylelikle NavProvider içinde tanımlı tüm ekranlar NavHost tarafından erişilebilir hale gelecek.
 
 ```
 @Module
@@ -86,3 +91,37 @@ class MainActivity : ComponentActivity() {
 }
 
 ```
+- Type-Safety Navigation sayesinde gönderilen verileri almak oldukça kolaydır. `toRoute` fonksiyonu sayesinde veriler kolayça composable ekranımızın içinden alınır.
+
+```
+
+class DetailNavRegisterer : NavRegisterer {
+    override fun registerGraph(navGraphBuilder: NavGraphBuilder, navController: NavController) {
+        navGraphBuilder.composable<DetailScreen> {
+            // toRoute() fonksiyonu sayesinde navigation ile gönderilen veriyi alabiliriz
+            val args = it.toRoute<DetailScreen>()
+            DetailScreen(onNavigateHomeScreen = { navController.navigateTo(HomeScreen) })
+        }
+    }
+}
+
+```
+
+- ViewModel içinde de gönderilen veriye ulaşılabilir. SavedStateHandle sayesinde `toRoute` fonksiyonuna ulaşılarak gönderilen veriye ulaşılır.
+
+```
+
+
+class DetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
+    
+    private var _messageState = MutableStateFlow(savedStateHandle.toRoute<Screen.DetailScreen>().message)
+    val messageState: StateFlow<String?> = _messageState
+    
+}
+
+```
+
+
+
