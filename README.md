@@ -61,7 +61,7 @@ Ekranlara erişebilmek için oluşturulan NavGraph adlı composable fonksiyona n
 
 @Composable
 fun NavGraph(navController: NavHostController, navProvider: NavProvider) {
-    NavHost(navController = navController, startDestination = Screens.DetailScreen.route) {
+    NavHost(navController = navController, startDestination = HomeScreen) {
         navProvider.homeScreen.registerGraph(navGraphBuilder = this, navController = navController)
         navProvider.detailScreen.registerGraph(navGraphBuilder = this, navController = navController)
     }
